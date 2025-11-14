@@ -1,7 +1,6 @@
 ﻿using Dominio.Entities;
 using Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +18,7 @@ namespace Infraestructura.Repositorios
         public async Task<List<Colegio>> ListarAsync() =>
             await _context.Colegios.ToListAsync();
 
-        public async Task<Colegio?> ObtenerPorIdAsync(Guid id) =>
+        public async Task<Colegio?> ObtenerPorIdAsync(int id) => 
             await _context.Colegios.FindAsync(id);
 
         public async Task AgregarAsync(Colegio colegio)
@@ -34,7 +33,7 @@ namespace Infraestructura.Repositorios
             await _context.SaveChangesAsync();
         }
 
-        public async Task EliminarAsync(Guid id)
+        public async Task EliminarAsync(int id) 
         {
             var colegio = await _context.Colegios.FindAsync(id);
             if (colegio is not null)
