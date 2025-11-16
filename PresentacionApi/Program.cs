@@ -1,11 +1,9 @@
-﻿using Infraestructura.Persistencia;
+﻿using Dominio.Entities;
+using Infraestructura.Persistencia;
 using Infraestructura.Repositorios;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +30,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// 🚀 Middleware
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -48,3 +46,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+builder.Services.AddDbContext<ColegioDb>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

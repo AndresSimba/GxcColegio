@@ -31,26 +31,34 @@ namespace Infraestructura.Persistencia
                 .HasIndex(m => m.Nombre)
                 .IsUnique();
 
-            // Relaciones explícitas si lo deseas
+            // Materia → Colegio
             modelBuilder.Entity<Materia>()
                 .HasOne(m => m.Colegio)
                 .WithMany(c => c.Materias)
-                .HasForeignKey(m => m.IdColegio);
+                .HasForeignKey(m => m.IdColegio)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Calificaciones → Colegio
             modelBuilder.Entity<Calificaciones>()
                 .HasOne(c => c.Colegio)
                 .WithMany(cg => cg.Calificaciones)
-                .HasForeignKey(c => c.IdColegio);
+                .HasForeignKey(c => c.IdColegio)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Calificaciones → Materia
             modelBuilder.Entity<Calificaciones>()
                 .HasOne(c => c.Materia)
                 .WithMany(m => m.Calificaciones)
-                .HasForeignKey(c => c.IdMateria);
+                .HasForeignKey(c => c.IdMateria)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Calificaciones → Usuario
             modelBuilder.Entity<Calificaciones>()
                 .HasOne(c => c.Usuario)
                 .WithMany(u => u.Calificaciones)
-                .HasForeignKey(c => c.IdUsuario);
+                .HasForeignKey(c => c.IdUsuario)
+                .OnDelete(DeleteBehavior.Restrict);
         }
+
     }
 }
